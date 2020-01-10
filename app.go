@@ -20,11 +20,13 @@ func parseFlags(){
   flag.StringVar(&config.Config.User, "user", "", "User for Database Connection")
   flag.StringVar(&config.Config.Password, "password", "", "Password for Database Connection")
   flag.StringVar(&config.Config.Address, "address", "localhost:3306",
-    "Host address with port of Database Connection.")
-  flag.StringVar(&config.Config.DbName, "db-name", "", "Name of Database")
-  flag.StringVar(&config.Config.Table, "table", "", "table name to be archived")
-  flag.StringVar(&config.Config.Where, "where", "", "condition to be used while archiving")
-  flag.StringVar(&config.Config.Query, "query", "", "if used it will ignore --where option")
+    "[REQUIRED] Host address with port of Database Connection.")
+  flag.StringVar(&config.Config.DbName, "db-name", "", "[REQUIRED] Name of Database")
+  flag.StringVar(&config.Config.Table, "table", "", "[REQUIRED] table name to be archived")
+  flag.StringVar(&config.Config.Where, "where", "",
+    "condition to be used while archiving. Needed if --query is not provided")
+  flag.StringVar(&config.Config.Query, "query", "",
+    "if used it will ignore --where option. Needed if --where is not provided")
   flag.IntVar(&config.Config.Limit, "limit", 500, "limit the number of records")
   flag.IntVar(&config.Config.Batch, "batch", 0,
     "Fetch records in batch. If used it will ignore --limit")
