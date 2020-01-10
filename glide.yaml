@@ -1,0 +1,6 @@
+package: github.com/traveltriangle/db-archiver
+import:
+- package: github.com/go-sql-driver/mysql
+  version: v1.5.0
+- package: github.com/gookit/color
+  version: v1.2.1

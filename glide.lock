@@ -1,0 +1,8 @@
+hash: 5e113d397fe0f3e866c535a461904b20eac3cedf3c9a0733ea043105f10a91a3
+updated: 2020-01-10T10:32:06.701713522+05:30
+imports:
+- name: github.com/go-sql-driver/mysql
+  version: 17ef3dd9d98b69acec3e85878995ada9533a9370
+- name: github.com/gookit/color
+  version: ecea05b3eccbc26b9c388d10f97e4d413deb3c29
+testImports: []
