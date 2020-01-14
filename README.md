@@ -9,6 +9,13 @@ Clone the repository to your GOPATH and build the app.go
 <pre>
 <code>
 git clone git@github.com:traveltriangle/db-archiver.git
+
+add a file in config folder named db.yaml and add the
+following configuration
+<b>user</b>: admin
+<b>password</b>: password
+<b>address</b>: localhost:3306
+
 go build -o db-archiver app.go
 </code>
 </pre>
@@ -34,12 +41,10 @@ then be moved to any storage space like S3 or Glacier.
 
 ./db-archiver --db-name <b>DB_NAME</b> \
 --table <b>TABLE_NAME</b> --where <b>CONDITION</b> \
---user <b>USER</b> --password <b>PASSWORD</b> \
 --path <b>FOLDER_PATH</b>
 
 ./db-archiver --db-name test \
 --table customers --where "join_date > '2019-01-01'" \
---user admin --password password \
 --path "/var/log/"
 
 ./db-archiver --db-name test --table customers \
@@ -55,8 +60,6 @@ then be moved to any storage space like S3 or Glacier.
 
 
 <b><i>Available Options</i></b>
-   <b>--address</b> string
-     	[REQUIRED] Host address with port of Database Connection. (default "localhost:3306")
    <b>--batch</b> int
      	Fetch records in batch. If used it will ignore <b>--limit</b>
    <b>--db-name</b> string
@@ -67,8 +70,6 @@ then be moved to any storage space like S3 or Glacier.
      	limit the number of records (default 500)
    <b>--optimize</b>
      	Optimize Table after deletion (default true)
-   <b>--password </b>string
-     	Password for Database Connection
    <b>--path </b>string
      	path to folder where the file will be stored (default "/tmp/")
    <b>--pk </b>string
@@ -77,8 +78,6 @@ then be moved to any storage space like S3 or Glacier.
      	if used it will ignore <b>--where </b>option. Needed if <b>--where </b>is not provided
    <b>--table </b>string
      	[REQUIRED] table name to be archived
-   <b>--user </b>string
-     	User for Database Connection
    <b>--where </b>string
      	condition to be used while archiving. Needed if <b>--query </b>is not provided
 </code></pre>

@@ -17,10 +17,6 @@ func main(){
 }
 
 func parseFlags(){
-  flag.StringVar(&config.Config.User, "user", "", "User for Database Connection")
-  flag.StringVar(&config.Config.Password, "password", "", "Password for Database Connection")
-  flag.StringVar(&config.Config.Address, "address", "localhost:3306",
-    "[REQUIRED] Host address with port of Database Connection.")
   flag.StringVar(&config.Config.DbName, "db-name", "", "[REQUIRED] Name of Database")
   flag.StringVar(&config.Config.Table, "table", "", "[REQUIRED] table name to be archived")
   flag.StringVar(&config.Config.Where, "where", "",
