@@ -12,8 +12,8 @@ import (
 func ToCSV(columns []string, results []map[string]interface{},){
   color.Info.Prompt(fmt.Sprint( "Archiving ", len(results), " records."))
   now := time.Now()
-  fileName := fmt.Sprintf("%s-%s-%d-%s-%d_%d:%d.csv", config.Config.DbName, config.Config.Table,
-    now.Year(), now.Month().String(), now.Day(), now.Hour(), now.Minute())
+  fileName := fmt.Sprintf("%s-%s-%d-%s-%d_%d.csv", config.Config.DbName, config.Config.Table,
+    now.Year(), now.Month().String(), now.Day(), now.Unix())
   fileName = config.Config.Path + fileName
 
   color.Info.Prompt(fmt.Sprint( "Archiving to the file ", fileName))
