@@ -21,7 +21,6 @@ go build -o db-archiver app.go
 </pre>
 
 you can check for an executable with the name db-archiver.
-This executable can be moved to any folder in the PATH variable.
 
 ##### How to use
 
