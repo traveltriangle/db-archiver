@@ -1,4 +1,3 @@
-db-archiver
 .idea/
 vendor/
 config/db.yaml

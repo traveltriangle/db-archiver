@@ -4,3 +4,5 @@ import:
   version: v1.5.0
 - package: github.com/gookit/color
   version: v1.2.1
+- package: gopkg.in/yaml.v2
+  version: v2.2.7

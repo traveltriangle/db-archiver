@@ -2,32 +2,38 @@ DB Archiver is a utility developed in golang useful for archiving
 data. Currently this utility only supports archiving data to CSV 
 file. 
 
-##### Installation 
-
-Clone the repository to your GOPATH and build the app.go
+##### Installation
+you can download the executable(LINUX only) from github or 
+you can clone the repository to your GOPATH. You need glide if
+you are going to build from source
 
 <pre>
 <code>
-git clone git@github.com:traveltriangle/db-archiver.git
-
-add a file in config folder named db.yaml and add the
-following configuration
-<b>user</b>: admin
-<b>password</b>: password
-<b>address</b>: localhost:3306
-
-go build -o db-archiver app.go
+1. git clone git@github.com:traveltriangle/db-archiver.git
+2. glide install
+3. go build -o db-archiver app.go 
 </code>
 </pre>
 
 you can check for an executable with the name db-archiver.
 
 ##### How to use
+In the installation path 
+<pre>
+<code>
+1. Create a folder config
+2. Inside config create a file db.yaml and add the 
+   following configuration for your database
+    <b>user</b>: admin
+    <b>password</b>: password
+    <b>address</b>: localhost:3306
 
-We can archive any table with this utility to a CSV file which can
+</code>
+</pre>
+you can now use db-archiver to archive any table to a CSV file which can
 then be moved to any storage space like S3 or Glacier.
 
-###### Examples
+##### Examples
 
 
 
