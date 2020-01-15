@@ -25,7 +25,6 @@ type conf struct {
   PrimaryKey string
   Db         *sql.DB
   Optimize   bool
-  Delete     bool
 }
 
 var Config = conf{}

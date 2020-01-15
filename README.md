@@ -69,12 +69,10 @@ then be moved to any storage space like S3 or Glacier.
      	Fetch records in batch. If used it will ignore <b>--limit</b>
    <b>--db-name</b> string
      	[REQUIRED] Name of Database
-   <b>--delete</b>
-     	Delete from Table after archiving (default true)
    <b>--limit </b>int
      	limit the number of records (default 500)
    <b>--optimize</b>
-     	Optimize Table after deletion (default true)
+     	Optimize Table after deletion (default false)
    <b>--path </b>string
      	path to folder where the file will be stored (default "/tmp/")
    <b>--pk </b>string

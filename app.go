@@ -30,8 +30,7 @@ func parseFlags(){
     "path to folder where the file will be stored")
   flag.StringVar(&config.Config.PrimaryKey, "pk", "id",
     "primary key which will be used to delete the records")
-  flag.BoolVar(&config.Config.Optimize, "optimize", true, "Optimize Table after deletion")
-  flag.BoolVar(&config.Config.Delete, "delete", true, "Delete from Table after archiving")
+  flag.BoolVar(&config.Config.Optimize, "optimize", false, "Optimize Table after deletion")
   flag.Parse()
   if config.Config.DbName == "" {
     color.Error.Prompt("Database name is not specified")
