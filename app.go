@@ -7,13 +7,27 @@ import (
   "github.com/traveltriangle/db-archiver/config"
   "github.com/traveltriangle/db-archiver/query"
   "os"
+  "time"
 )
 
 func main(){
   parseFlags()
-  columns, results, ids := query.Results()
-  archive.ToCSV(columns, results)
-  query.DeleteData(ids)
+  defer config.Config.Read.Db.Close()
+  defer config.Config.Write.Db.Close()
+  shouldStop := make(chan struct{})
+  go func(){
+    for {
+      columns, results, ids := query.Results()
+      if len(ids) == 0{
+        shouldStop <- struct{}{}
+      }
+      archive.ToCSV(columns, results)
+      query.DeleteData(ids)
+      time.Sleep(time.Second * 10)
+    }
+  }()
+  <-shouldStop
+  query.OptimizeTable()
 }
 
 func parseFlags(){
@@ -24,8 +38,6 @@ func parseFlags(){
   flag.StringVar(&config.Config.Query, "query", "",
     "if used it will ignore --where option. Needed if --where is not provided")
   flag.IntVar(&config.Config.Limit, "limit", 500, "limit the number of records")
-  flag.IntVar(&config.Config.Batch, "batch", 0,
-    "Fetch records in batch. If used it will ignore --limit")
   flag.StringVar(&config.Config.Path, "path", "/tmp/",
     "path to folder where the file will be stored")
   flag.StringVar(&config.Config.PrimaryKey, "pk", "id",

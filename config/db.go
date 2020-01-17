@@ -29,7 +29,6 @@ type conf struct {
   Where      string
   Query      string
   Limit      int
-  Batch      int
   Path       string
   PrimaryKey string
   Optimize   bool

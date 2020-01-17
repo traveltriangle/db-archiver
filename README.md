@@ -73,12 +73,11 @@ then be moved to any storage space like S3 or Glacier.
 
 
 <b><i>Available Options</i></b>
-   <b>--batch</b> int
-     	Fetch records in batch. If used it will ignore <b>--limit</b>
    <b>--db-name</b> string
      	[REQUIRED] Name of Database
    <b>--limit </b>int
-     	limit the number of records (default 500)
+     	limit the number of records. It will run in the batch
+     	of this number(default 500)
    <b>--optimize</b>
      	Optimize Table after deletion (default false)
    <b>--path </b>string

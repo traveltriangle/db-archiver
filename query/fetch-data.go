@@ -9,11 +9,9 @@ import (
 )
 
 func Results() ([]string, []map[string]interface{}, []interface{}){
-  defer config.Config.Read.Db.Close()
   var results = make([]map[string]interface{},0, 0)
   var columns = make([]string, 0, 0)
   var ids = make([]interface{},0, 0)
-  var shouldRun bool = true
   var query string
   if config.Config.Query != ""{
     query = config.Config.Query
@@ -25,25 +23,17 @@ func Results() ([]string, []map[string]interface{}, []interface{}){
     color.Error.Prompt("Any one of --query or --where should be specified.")
     os.Exit(1)
   }
-  if config.Config.Batch > 0 {
-    offset := 0
-    for shouldRun{
-      shouldRun, columns = fetchData(config.Config.Batch, offset, query, &results, &ids)
-      offset += config.Config.Batch
-    }
-  } else {
-    shouldRun, columns = fetchData(config.Config.Limit, 0, query, &results, &ids)
-  }
+  columns = fetchData(config.Config.Limit, query, &results, &ids)
 
  return columns, results, ids
 
 }
 
-func fetchData(limit, batch int, query string, results *[]map[string]interface{}, ids *[]interface{}) (bool, []string){
+func fetchData(limit int, query string, results *[]map[string]interface{}, ids *[]interface{}) ([]string){
   var rows *sql.Rows
   var err error
   numOfRows := 0
-  query = fmt.Sprint(query, " LIMIT ", limit, " OFFSET ", batch)
+  query = fmt.Sprint(query, " LIMIT ", limit)
   color.Info.Prompt(fmt.Sprint("Running query: ", query))
   rows, err = config.Config.Read.Db.Query(query)
   config.HandleError(err, true)
@@ -82,7 +72,7 @@ func fetchData(limit, batch int, query string, results *[]map[string]interface{}
   config.HandleError(rows.Err(), true)
 
   if numOfRows == 0{
-    return false, columns
+    return columns
   }
-  return true, columns
+  return columns
 }
