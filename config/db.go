@@ -12,9 +12,18 @@ import (
 )
 
 type conf struct {
-  User       string `yaml:"user"`
-  Password   string `yaml:"password"`
-  Address    string `yaml:"address"`
+  Read struct{
+    User       string `yaml:"user"`
+    Password   string `yaml:"password"`
+    Address    string `yaml:"address"`
+    Db         *sql.DB
+  } `yaml:"read"`
+  Write struct{
+    User       string `yaml:"user"`
+    Password   string `yaml:"password"`
+    Address    string `yaml:"address"`
+    Db         *sql.DB
+  } `yaml:"write"`
   DbName     string
   Table      string
   Where      string
@@ -23,7 +32,6 @@ type conf struct {
   Batch      int
   Path       string
   PrimaryKey string
-  Db         *sql.DB
   Optimize   bool
 }
 
@@ -33,18 +41,24 @@ func ConfigureMysql() {
   dir, err := os.Getwd()
   HandleError(err, true)
 
-  loc, err := time.LoadLocation("Asia/Kolkata")
-  HandleError(err, true)
-
   yamlFile, err := ioutil.ReadFile(filepath.Join(dir, "config", "db.yaml"))
   HandleError(err, true)
   err = yaml.Unmarshal(yamlFile, &Config)
   HandleError(err, true)
 
+  configureReadDB()
+  configureWriteDB()
+
+
+}
+
+func configureReadDB(){
+  loc, err := time.LoadLocation("Asia/Kolkata")
+  HandleError(err, true)
   mysqlCon := mysql.Config{
-    User:                 Config.User,
-    Passwd:               Config.Password,
-    Addr:                 Config.Address,
+    User:                 Config.Read.User,
+    Passwd:               Config.Read.Password,
+    Addr:                 Config.Read.Address,
     Net:                  "tcp",
     DBName:               Config.DbName,
     Timeout:              0,
@@ -54,13 +68,42 @@ func ConfigureMysql() {
     AllowNativePasswords: true,
   }
 
-  Config.Db, err = sql.Open("mysql", mysqlCon.FormatDSN())
+  Config.Read.Db, err = sql.Open("mysql", mysqlCon.FormatDSN())
   if err != nil {
     color.Error.Prompt(err.Error())
     panic(err)
   }
 
-  if err := Config.Db.Ping(); err != nil {
+  if err := Config.Read.Db.Ping(); err != nil {
+    color.Error.Prompt(err.Error())
+    panic(err)
+  }
+
+}
+
+func configureWriteDB(){
+  loc, err := time.LoadLocation("Asia/Kolkata")
+  HandleError(err, true)
+  mysqlCon := mysql.Config{
+    User:                 Config.Write.User,
+    Passwd:               Config.Write.Password,
+    Addr:                 Config.Write.Address,
+    Net:                  "tcp",
+    DBName:               Config.DbName,
+    Timeout:              0,
+    ReadTimeout:          0,
+    WriteTimeout:         0,
+    Loc:                  loc,
+    AllowNativePasswords: true,
+  }
+
+  Config.Write.Db, err = sql.Open("mysql", mysqlCon.FormatDSN())
+  if err != nil {
+    color.Error.Prompt(err.Error())
+    panic(err)
+  }
+
+  if err := Config.Write.Db.Ping(); err != nil {
     color.Error.Prompt(err.Error())
     panic(err)
   }

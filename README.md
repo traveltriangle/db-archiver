@@ -24,13 +24,21 @@ In the installation path
 1. Create a folder config
 2. Inside config create a file db.yaml and add the 
    following configuration for your database
+   <b>read</b>:
+    <b>user</b>: admin-read
+    <b>password</b>: password
+    <b>address</b>: localhost:3306
+   <b>write</b>:
     <b>user</b>: admin
     <b>password</b>: password
     <b>address</b>: localhost:3306
 
 </code>
 </pre>
-you can now use db-archiver to archive any table to a CSV file which can
+We need 2 paths for database one from where we will read the 
+records and one from where we will delete them.
+ 
+db-archiver utility can be used to archive any table to a CSV file which can
 then be moved to any storage space like S3 or Glacier.
 
 ##### Examples

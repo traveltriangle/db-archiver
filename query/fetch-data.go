@@ -9,6 +9,7 @@ import (
 )
 
 func Results() ([]string, []map[string]interface{}, []interface{}){
+  defer config.Config.Read.Db.Close()
   var results = make([]map[string]interface{},0, 0)
   var columns = make([]string, 0, 0)
   var ids = make([]interface{},0, 0)
@@ -44,7 +45,7 @@ func fetchData(limit, batch int, query string, results *[]map[string]interface{}
   numOfRows := 0
   query = fmt.Sprint(query, " LIMIT ", limit, " OFFSET ", batch)
   color.Info.Prompt(fmt.Sprint("Running query: ", query))
-  rows, err = config.Config.Db.Query(query)
+  rows, err = config.Config.Read.Db.Query(query)
   config.HandleError(err, true)
   defer rows.Close()
 
